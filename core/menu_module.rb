@@ -1,4 +1,4 @@
-module Menu
+module MenuModule
   def message
     puts 'Press entert to continue!'.green
     gets

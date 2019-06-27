@@ -1,4 +1,4 @@
-module Logic
+module LogicModule
   def check_code(try, attempts, input_code, code)
     return false if try > attempts
     return true if input_code == code

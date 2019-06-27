@@ -1,8 +1,8 @@
 class Game
-  include Menu
-  include Validation
-  include Database
-  include Logic
+  include MenuModule
+  include ValidationModule
+  include DatabaseModule
+  include LogicModule
   attr_accessor :code, :input_code, :object
   attr_reader :name, :difficulty, :hints_total, :hints_used, :try, :attempts
 

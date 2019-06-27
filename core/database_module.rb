@@ -1,4 +1,4 @@
-module Database
+module DatabaseModule
   FILE_NAME = 'data.yml'.freeze
   def save(data)
     raise StandardError, 'file not found!' unless File.exist?(FILE_NAME)
