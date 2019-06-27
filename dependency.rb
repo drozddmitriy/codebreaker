@@ -1,0 +1,8 @@
+require 'pry'
+require 'colorize'
+require 'yaml'
+require './core/module_logic'
+require './core/module_menu'
+require './core/module_db'
+require './core/module_validation'
+require './core/game'
