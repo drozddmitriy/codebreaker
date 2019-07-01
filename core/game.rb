@@ -3,7 +3,7 @@ class Game
   include ValidationModule
   include DatabaseModule
   include LogicModule
-  attr_accessor :code, :input_code, :object
+  attr_accessor :code, :input_code, :data
   attr_reader :name, :difficulty, :hints_total, :hints_used, :try, :attempts
 
   def initialize
@@ -12,19 +12,19 @@ class Game
     @object = load
     @hints_used = 0
     @input_code = false
+    @data = load
   end
 
-  def run
+  def registration
     until @name
       system 'clear'
       puts 'Entery you name!'.green
       name = gets.chomp
 
-      return if name == 'exit'
+      return false if name == 'exit'
 
       set_values(validation_name(name), name, 'name')
     end
-    check_difficulty
   end
 
   def set_values(valid, set_val, name)
@@ -54,13 +54,12 @@ class Game
         set_difficul('hell', 5, 1)
         break
       when 'exit'
-        return
+        return false
       else
         puts 'Error please choose difficul'.red
         MenuModule.message
       end
     end
-    game_process
   end
 
   def set_difficul(difficulty, attempts, hints_total)
@@ -74,15 +73,12 @@ class Game
 
     i = 0
     while i <= @attempts
-      flag = input(@attempts - i)
-
-      return if flag == false
+      return if input(@attempts - i) == false
 
       @try += 1
       result = check_code(@try, @attempts, @input_code, @code)
 
       if result == true
-
         puts "Secret code: #{@code}".green
         puts 'You win)))!!!'.blue
         puts 'Do you want to save the result? [y/n]'
@@ -100,8 +96,7 @@ class Game
         MenuModule.message
         return
       end
-      puts @code #####################
-      
+
       print 'Result:'.green
       puts result
       MenuModule.message

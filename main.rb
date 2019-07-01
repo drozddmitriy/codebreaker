@@ -1,17 +1,20 @@
 require './dependency'
 
 loop do
+  system 'clear'
   game = Game.new
-  obj = game.object
   game.menu_main
   choise = gets.chomp
   case choise
   when 'start'
-    game.run
+    next if game.registration == false
+    next if game.check_difficulty == false
+    game.game_process
+    # binding.pry
   when 'rules'
     game.rules
   when 'stats'
-    game.statistic(obj)
+    game.statistic(game.data)
   when 'exit'
     puts 'goodbye)))'.blue
     break
@@ -20,7 +23,6 @@ loop do
     puts 'Press entert to continue!'.green
     gets
   end
-  system 'clear'
 end
 sleep 1
 system 'clear'
