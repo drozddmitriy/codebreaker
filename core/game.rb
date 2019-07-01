@@ -9,7 +9,6 @@ class Game
   def initialize
     @name = false
     @try = 0
-    @object = load
     @hints_used = 0
     @input_code = false
     @data = load
