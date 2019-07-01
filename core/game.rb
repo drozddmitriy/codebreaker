@@ -7,43 +7,66 @@ class Game
   attr_reader :name, :difficulty, :hints_total, :hints_used, :try, :attempts
 
   def initialize
+    @name = false
     @try = 0
     @object = load
     @hints_used = 0
+    @input_code = false
   end
 
-  def input(attempts)
-    begin
-      menu_process(attempts, @hints_total)
-      puts 'Entery you guess!'.green
-      guess = gets.chomp
+  def run
+    until @name
+      system 'clear'
+      puts 'Entery you name!'.green
+      name = gets.chomp
 
-      return false if guess == 'exit'
+      return if name == 'exit'
 
-      if (guess == 'hint') && @hints_total.positive?
-        @hints_total -= 1
-        @hints_used += 1
-        puts hint(@code)
-        message
-        next
-      end
+      set_values(validation_name(name), name, 'name')
+    end
+    check_difficulty
+  end
 
-      if (guess == 'hint') && @hints_total.zero?
-        puts 'No hints'.red
-        message
-        next
-      end
+  def set_values(valid, set_val, name)
+    if valid
+      @name = set_val if name == 'name'
+      @input_code = set_val if name == 'guess'
+      return
+    end
 
-      flag = validation_guess(guess)
+    puts "Error please enter valid #{name}".red
+    MenuModule.message
+  end
 
-      if flag
-        @input_code = guess
+  def check_difficulty
+    loop do
+      menu_choose_difficulty
+      difficul = gets.chomp
+
+      case difficul
+      when 'easy'
+        set_difficul('easy', 15, 2)
+        break
+      when 'medium'
+        set_difficul('medium', 10, 1)
+        break
+      when 'hell'
+        set_difficul('hell', 5, 1)
+        break
+      when 'exit'
+        return
       else
-        puts 'Error please enter valid guess'.red
-        message
-        system 'clear'
+        puts 'Error please choose difficul'.red
+        MenuModule.message
       end
-    end until flag
+    end
+    game_process
+  end
+
+  def set_difficul(difficulty, attempts, hints_total)
+    @difficulty = difficulty
+    @attempts = attempts
+    @hints_total = hints_total
   end
 
   def game_process
@@ -59,73 +82,53 @@ class Game
       result = check_code(@try, @attempts, @input_code, @code)
 
       if result == true
-        save(to_hash([@name, @attempts, @hints_total, @hints_used, @difficulty, @try]))
+
+        puts "Secret code: #{@code}".green
         puts 'You win)))!!!'.blue
-        message
+        puts 'Do you want to save the result? [y/n]'
+        flag = gets.chomp
+        if flag == 'y'
+          save(to_hash([@name, @attempts, @hints_total, @hints_used, @difficulty, @try]))
+        end
+        MenuModule.message
         return
-      elsif result == false
+      end
+
+      if result == false
+        puts "Secret code: #{@code}".green
         puts 'You loose((('.red
-        message
+        MenuModule.message
         return
-      else
-        i += 1
       end
       puts @code #####################
-      print 'Result: '.green
+      
+      print 'Result:'.green
       puts result
-      message
+      MenuModule.message
+      i += 1
+      @input_code = false
     end
   end
 
-  def run
-    begin
-      system 'clear'
-      puts 'Entery you name!'.green
-      name = gets.chomp
+  def input(attempts)
+    until @input_code
+      menu_process(attempts, @hints_total - @hints_used)
+      guess = gets.chomp
 
-      return if name == 'exit'
+      return false if guess == 'exit'
 
-      flag = validation_name(name)
-
-      if flag
-        @name = name
-      else
-        puts 'Error please enter valid name'.red
-        message
+      if guess == 'hint'
+        if (@hints_total - @hints_used).zero?
+          puts 'No hints'.red
+        else
+          @hints_used += 1
+          puts hint(@code)
+        end
+        MenuModule.message
+        next
       end
-    end until flag
-    difficulty
-  end
 
-  def difficulty
-    loop do
-      menu_choose_difficulty
-      difficul = gets.chomp
-
-      case difficul
-      when 'easy'
-        @difficulty = 'easy'
-        @attempts = 15
-        @hints_total = 2
-        break
-      when 'medium'
-        @difficulty = 'medium'
-        @attempts = 10
-        @hints_total = 1
-        break
-      when 'hell'
-        @difficulty = 'hell'
-        @attempts = 5
-        @hints_total = 1
-        break
-      when 'exit'
-        return
-      else
-        puts 'Error please choose difficul'.red
-        message
-        system 'clear'
-      end
+      set_values(validation_guess(guess), guess, 'guess')
     end
-    game_process
   end
 end

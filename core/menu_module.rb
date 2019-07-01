@@ -1,7 +1,8 @@
 module MenuModule
-  def message
+  def self.message
     puts 'Press entert to continue!'.green
     gets
+    system 'clear'
   end
 
   def menu_main
@@ -37,16 +38,20 @@ module MenuModule
     puts "hint - #{hints} ".green
     puts 'exit'.green
     puts '******************************'.yellow
+    puts 'Entery you guess!'.green
   end
 
   def statistic(object)
     puts "|Rating\t|Name\t|Difficulty\t|Attempts Total\t|Attempts Used\t|Hints Total\t|Hints Used\t|".yellow
     rating = 1
-    object.each do |e|
+
+    array = object.sort_by { |value| [value[:attempts], value[:try], value[:hints_used]] }
+
+    array.each do |e|
       puts "|#{rating}\t|#{e[:name]}\t|#{e[:difficulty]}\t\t|#{e[:attempts]}\t\t|#{e[:try]}\t\t|#{e[:hints_total]}\t\t|#{e[:hints_used]}\t\t|".yellow
       rating += 1
     end
-    message
+    MenuModule.message
   end
 
   def rules
@@ -82,6 +87,6 @@ module MenuModule
     a hint - he receives back a separate digit of the secret code.
     FOO
 
-    message
+    MenuModule.message
   end
 end
