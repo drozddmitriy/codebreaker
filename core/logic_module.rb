@@ -43,7 +43,7 @@ module LogicModule
       hints << if index == hint_index
                  char
                else
-                 ' '
+                 '*'
                end
     end
     hints

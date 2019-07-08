@@ -80,11 +80,9 @@ class Game
       if result == true
         puts "Secret code: #{@code}".green
         puts 'You win)))!!!'.blue
-        puts 'Do you want to save the result? [y/n]'
+        puts 'Do you want to save the result? [y/n]'.green
         flag = gets.chomp
-        if flag == 'y'
-          save(to_hash([@name, @attempts, @hints_total, @hints_used, @difficulty, @try]))
-        end
+        save(to_hash([@name, @attempts, @hints_total, @hints_used, @difficulty, @try])) if flag == 'y'
         MenuModule.message
         return
       end
@@ -95,7 +93,7 @@ class Game
         MenuModule.message
         return
       end
-
+      puts @code ##################
       print 'Result:'.green
       puts result
       MenuModule.message

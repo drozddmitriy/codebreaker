@@ -1,4 +1,4 @@
-require './dependency'
+require_relative './dependency'
 
 loop do
   system 'clear'
@@ -9,8 +9,8 @@ loop do
   when 'start'
     next if game.registration == false
     next if game.check_difficulty == false
+
     game.game_process
-    # binding.pry
   when 'rules'
     game.rules
   when 'stats'
