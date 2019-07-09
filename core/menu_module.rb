@@ -113,5 +113,4 @@ module MenuModule
     puts result
     MenuModule.message
   end
-
 end

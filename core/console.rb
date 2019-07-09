@@ -11,11 +11,10 @@ class Console
       when 'start'
         next if registration == false
         next if check_difficulty == false
+
         game_process
-      when 'rules'
-        rules
-      when 'stats'
-        statistic(load)
+      when 'rules' then rules
+      when 'stats' then statistic(load)
       when 'exit'
         puts 'goodbye)))'.blue
         break
@@ -33,7 +32,7 @@ class Console
       name = gets.chomp
       return false if name == 'exit'
 
-      error('name') unless @game.set_name(name)
+      error('name') unless @game.def_name(name)
     end
   end
 
@@ -73,7 +72,7 @@ class Console
         next
       end
 
-      error('guess') unless @game.set_guess(guess)
+      error('guess') unless @game.def_guess(guess)
     end
   end
 
@@ -99,5 +98,4 @@ class Console
       @game.reset_input_code
     end
   end
-
 end

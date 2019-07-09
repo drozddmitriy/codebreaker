@@ -45,5 +45,4 @@ module LogicModule
     end
     code
   end
-
 end

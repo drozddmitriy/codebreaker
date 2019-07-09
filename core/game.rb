@@ -11,20 +11,23 @@ class Game
     @input_code = false
   end
 
-  def set_name(name)
+  def def_name(name)
     return @name = name if validation_name(name)
-    return false
+
+    false
   end
 
   def hint
     return 'No hints'.red if (@hints_total - @hints_used).zero?
+
     @hints_used += 1
     check_hint(@code)
   end
 
-  def set_guess(guess)
+  def def_guess(guess)
     return @input_code = guess if validation_guess(guess)
-    return false
+
+    false
   end
 
   def set_difficul(difficulty, attempts, hints_total)
@@ -52,6 +55,7 @@ class Game
   def check
     return false if @try > @attempts
     return true if @input_code == @code
+
     check_code(@input_code, @code)
   end
 
@@ -66,5 +70,4 @@ class Game
   def reset_input_code
     @input_code = false
   end
-
 end
