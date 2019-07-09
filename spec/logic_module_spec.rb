@@ -1,5 +1,4 @@
 require_relative 'spec_helper'
-require_relative '../dependency'
 
 RSpec.describe LogicModule do
     let(:game) { Game.new }

@@ -5,7 +5,7 @@ RSpec.describe DatabaseModule do
   # let(:game) { Game.new }
 
   it "file exist" do
-    path = './../data.yml'
+    path = 'data.yml'
     expect(File.exist?(path)).to eq(true)
   end
 

@@ -5,7 +5,7 @@ module MenuModule
     system 'clear'
   end
 
-  def menu_main
+  def main_menu
     puts 'Welcome to game Codebraker!'.red
     puts '*************'.yellow
     puts 'start'.green
@@ -30,6 +30,7 @@ module MenuModule
 
   def menu_process(attempts, hints)
     system 'clear'
+    puts 'Game process:'
     puts '******************************'.yellow
     puts "attempts - #{attempts} ".green
     puts '******************************'.yellow
@@ -89,4 +90,28 @@ module MenuModule
 
     MenuModule.message
   end
+
+  def error(name)
+    puts "Error please enter valid #{name}".red
+    MenuModule.message
+  end
+
+  def menu_win(code)
+    puts "Secret code: #{code}".green
+    puts 'You win)))!!!'.blue
+    puts 'Do you want to save the result? [y/n]'.green
+  end
+
+  def menu_lose(code)
+    puts "Secret code: #{code}".green
+    puts 'You lose((('.red
+    MenuModule.message
+  end
+
+  def show_result(result)
+    print 'Result:'.green
+    puts result
+    MenuModule.message
+  end
+
 end
