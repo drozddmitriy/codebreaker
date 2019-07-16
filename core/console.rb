@@ -14,13 +14,13 @@ class Console
 
         game_process
       when 'rules' then rules
-      when 'stats' then statistic(load)
+      when 'stats' then statistic(sort_player(load))
       when 'exit'
-        puts 'goodbye)))'.blue
+        puts 'goodbye)))'
         break
       else
-        puts 'Error please choose one from listed commands'.red
-        MenuModule.message
+        puts 'Error please choose one from listed commands'
+        message
       end
     end
   end
@@ -28,7 +28,7 @@ class Console
   def registration
     until @game.name
       system 'clear'
-      puts 'Entery you name!'.green
+      puts 'Entery you name!'
       name = gets.chomp
       return false if name == 'exit'
 
@@ -37,7 +37,7 @@ class Console
   end
 
   def check_difficulty
-    until @game.attempts
+    loop do
       menu_choose_difficulty
 
       case gets.chomp
@@ -45,16 +45,16 @@ class Console
         @game.set_difficul('easy', 15, 2)
         break
       when 'medium'
-        @game.set_difficul('medium', 10, 1)
+        @game.set_difficul('medium', 10)
         break
       when 'hell'
-        @game.set_difficul('hell', 5, 1)
+        @game.set_difficul('hell', 5)
         break
       when 'exit'
         return false
       else
-        puts 'Error please choose difficul'.red
-        MenuModule.message
+        puts 'Error please choose difficul'
+        message
       end
     end
   end
@@ -68,7 +68,7 @@ class Console
 
       if guess == 'hint'
         puts @game.hint
-        MenuModule.message
+        message
         next
       end
 
@@ -88,11 +88,11 @@ class Console
       if result == true
         menu_win(@game.code)
         save(@game.to_hash) if gets.chomp == 'y'
-        MenuModule.message
+        message
         return
       end
 
-      return menu_lose(@game.code) if result == false || @game.diff_try.zero?
+      return menu_lose(@game.code) if @game.diff_try.zero?
 
       show_result(result)
       @game.reset_input_code

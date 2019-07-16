@@ -18,7 +18,7 @@ class Game
   end
 
   def hint
-    return 'No hints'.red if (@hints_total - @hints_used).zero?
+    return 'No hints' if diff_hints.zero?
 
     @hints_used += 1
     check_hint(@code)
@@ -30,7 +30,7 @@ class Game
     false
   end
 
-  def set_difficul(difficulty, attempts, hints_total)
+  def set_difficul(difficulty, attempts, hints_total = 1)
     @difficulty = difficulty
     @attempts = attempts
     @hints_total = hints_total
@@ -53,7 +53,6 @@ class Game
   end
 
   def check
-    return false if @try > @attempts
     return true if @input_code == @code
 
     check_code(@input_code, @code)

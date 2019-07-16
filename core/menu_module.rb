@@ -1,62 +1,60 @@
 module MenuModule
-  def self.message
-    puts 'Press entert to continue!'.green
+  def message
+    puts 'Press entert to continue!'
     gets
     system 'clear'
   end
 
   def main_menu
-    puts 'Welcome to game Codebraker!'.red
-    puts '*************'.yellow
-    puts 'start'.green
-    puts 'rules'.green
-    puts 'stats'.green
-    puts 'exit'.green
-    puts '*************'.yellow
-    puts 'Please choose one from listed commands'.green
+    puts 'Welcome to game Codebraker!'
+    puts '*************'
+    puts 'start'
+    puts 'rules'
+    puts 'stats'
+    puts 'exit'
+    puts '*************'
+    puts 'Please choose one from listed commands'
   end
 
   def menu_choose_difficulty
     system 'clear'
-    puts 'choise difficulties'.green
-    puts '******************************'.yellow
-    puts 'easy - 15 attempts. 2 hints'.green
-    puts 'medium - 10 attempts. 1 hint'.green
-    puts 'hell - 5 attempts. 1 hint'.green
-    puts 'exit'.green
-    puts '******************************'.yellow
-    puts 'Please choose difficul'.green
+    puts 'choise difficulties'
+    puts '******************************'
+    puts 'easy - 15 attempts. 2 hints'
+    puts 'medium - 10 attempts. 1 hint'
+    puts 'hell - 5 attempts. 1 hint'
+    puts 'exit'
+    puts '******************************'
+    puts 'Please choose difficul'
   end
 
   def menu_process(attempts, hints)
     system 'clear'
     puts 'Game process:'
-    puts '******************************'.yellow
-    puts "attempts - #{attempts} ".green
-    puts '******************************'.yellow
-    puts 'your choise'.green
-    puts '******************************'.yellow
-    puts "hint - #{hints} ".green
-    puts 'exit'.green
-    puts '******************************'.yellow
-    puts 'Entery you guess!'.green
+    puts '******************************'
+    puts "attempts - #{attempts}"
+    puts '******************************'
+    puts 'your choise'
+    puts '******************************'
+    puts "hint - #{hints}"
+    puts 'exit'
+    puts '******************************'
+    puts 'Entery you guess!'
   end
 
-  def statistic(object)
-    puts "|Rating\t|Name\t|Difficulty\t|Attempts Total\t|Attempts Used\t|Hints Total\t|Hints Used\t|".yellow
+  def statistic(array)
+    puts "|Rating\t|Name\t|Difficulty\t|Attempts Total\t|Attempts Used\t|Hints Total\t|Hints Used\t|"
     rating = 1
 
-    array = object.sort_by { |value| [value[:attempts], value[:try], value[:hints_used]] }
-
     array.each do |e|
-      puts "|#{rating}\t|#{e[:name]}\t|#{e[:difficulty]}\t\t|#{e[:attempts]}\t\t|#{e[:try]}\t\t|#{e[:hints_total]}\t\t|#{e[:hints_used]}\t\t|".yellow
+      puts "|#{rating}\t|#{e[:name]}\t|#{e[:difficulty]}\t\t|#{e[:attempts]}\t\t|#{e[:try]}\t\t|#{e[:hints_total]}\t\t|#{e[:hints_used]}\t\t|"
       rating += 1
     end
-    MenuModule.message
+    message
   end
 
   def rules
-    puts <<-FOO.yellow
+    puts <<-FOO
     Game Rules
 
     $ Codebreaker is a logic game in which a code-breaker tries to break a secret code
@@ -88,29 +86,29 @@ module MenuModule
     a hint - he receives back a separate digit of the secret code.
     FOO
 
-    MenuModule.message
+    message
   end
 
   def error(name)
-    puts "Error please enter valid #{name}".red
-    MenuModule.message
+    puts "Error please enter valid #{name}"
+    message
   end
 
   def menu_win(code)
-    puts "Secret code: #{code}".green
-    puts 'You win)))!!!'.blue
-    puts 'Do you want to save the result? [y/n]'.green
+    puts "Secret code: #{code}"
+    puts 'You win)))!!!'
+    puts 'Do you want to save the result? [y/n]'
   end
 
   def menu_lose(code)
-    puts "Secret code: #{code}".green
-    puts 'You lose((('.red
-    MenuModule.message
+    puts "Secret code: #{code}"
+    puts 'You lose((('
+    message
   end
 
   def show_result(result)
-    print 'Result:'.green
+    print 'Result:'
     puts result
-    MenuModule.message
+    message
   end
 end
