@@ -100,12 +100,6 @@ RSpec.describe Game do
   end
 
   describe '#check hint' do
-    it 'if no hints' do
-      game.hints_total = 1
-      game.hints_used = 1
-      expect(game.hint).to eq 'No hints'
-    end
-
     it 'if return hint' do
       game.hints_total = 1
       game.hints_used = 0

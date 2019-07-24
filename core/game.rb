@@ -18,8 +18,6 @@ class Game
   end
 
   def hint
-    return 'No hints' if diff_hints.zero?
-
     @hints_used += 1
     check_hint(@code)
   end

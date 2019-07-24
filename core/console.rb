@@ -67,7 +67,11 @@ class Console
       return false if guess == 'exit'
 
       if guess == 'hint'
-        puts @game.hint
+        if @game.diff_hints.zero?
+         puts 'No hints'
+        else
+          puts @game.hint
+        end
         message
         next
       end
