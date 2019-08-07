@@ -10,10 +10,9 @@
         1,
         1,
         1,
-        1,
         1
       ],
-      "/home/drozd/doc/codebreaker/core/logic_module.rb": [
+      "/home/drozd/doc/codebreaker/lib/logic_module.rb": [
         1,
         1,
         4,
@@ -63,7 +62,7 @@
         null,
         null
       ],
-      "/home/drozd/doc/codebreaker/core/menu_module.rb": [
+      "/home/drozd/doc/codebreaker/lib/menu_module.rb": [
         1,
         1,
         16,
@@ -179,7 +178,7 @@
         null,
         null
       ],
-      "/home/drozd/doc/codebreaker/core/database_module.rb": [
+      "/home/drozd/doc/codebreaker/lib/database_module.rb": [
         1,
         1,
         1,
@@ -201,7 +200,7 @@
         null,
         null
       ],
-      "/home/drozd/doc/codebreaker/core/validation_module.rb": [
+      "/home/drozd/doc/codebreaker/lib/validation_module.rb": [
         1,
         1,
         11,
@@ -212,7 +211,7 @@
         null,
         null
       ],
-      "/home/drozd/doc/codebreaker/core/game.rb": [
+      "/home/drozd/doc/codebreaker/lib/game.rb": [
         1,
         1,
         1,
@@ -284,7 +283,7 @@
         null,
         null
       ],
-      "/home/drozd/doc/codebreaker/core/console.rb": [
+      "/home/drozd/doc/codebreaker/lib/console.rb": [
         1,
         1,
         1,
@@ -848,6 +847,6 @@
         null
       ]
     },
-    "timestamp": 1564007664
+    "timestamp": 1565203851
   }
 }
