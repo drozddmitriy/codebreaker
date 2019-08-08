@@ -8,31 +8,33 @@ class Console
       system 'clear'
       main_menu
       case gets.chomp
-      when 'start'
+      when I18n.t(:start)
         next if registration == false
         next if check_difficulty == false
 
         game_process
-      when 'rules' then rules
-      when 'stats' then statistic(sort_player(load))
-      when 'exit'
-        puts 'goodbye)))'
+      when I18n.t(:rule) then rules
+      when I18n.t(:stats) then statistic(sort_player(load))
+      when I18n.t(:exit)
+        puts I18n.t(:goodbye)
         break
       else
-        puts 'Error please choose one from listed commands'
+        puts I18n.t(:please_choose_command)
         message
       end
     end
   end
 
   def registration
-    until @game.name
-      system 'clear'
-      puts 'Entery you name!'
-      name = gets.chomp
-      return false if name == 'exit'
+    loop do
+      break if @game.name
 
-      error('name') unless @game.def_name(name)
+      system 'clear'
+      puts I18n.t(:entery_name)
+      name = gets.chomp
+      return false if name == I18n.t(:exit)
+
+      error(I18n.t(:name)) unless @game.def_name(name)
     end
   end
 
@@ -41,34 +43,36 @@ class Console
       menu_choose_difficulty
 
       case gets.chomp
-      when 'easy'
-        @game.set_difficul('easy', 15, 2)
+      when I18n.t(:easy)
+        @game.set_difficul(I18n.t(:easy), 15, 2)
         break
-      when 'medium'
-        @game.set_difficul('medium', 10)
+      when I18n.t(:medium)
+        @game.set_difficul(I18n.t(:medium), 10)
         break
-      when 'hell'
-        @game.set_difficul('hell', 5)
+      when I18n.t(:hell)
+        @game.set_difficul(I18n.t(:hell), 5)
         break
-      when 'exit'
+      when I18n.t(:exit)
         return false
       else
-        puts 'Error please choose difficul'
+        puts I18n.t(:please_choose_difficul)
         message
       end
     end
   end
 
   def input(attempts)
-    until @game.input_code
+    loop do
+      break if @game.input_code
+
       menu_process(attempts, @game.diff_hints)
       guess = gets.chomp
 
-      return false if guess == 'exit'
+      return false if guess == I18n.t(:exit)
 
-      if guess == 'hint'
+      if guess == I18n.t(:hint)
         if @game.diff_hints.zero?
-         puts 'No hints'
+          puts I18n.t(:no_hints)
         else
           puts @game.hint
         end
@@ -76,7 +80,7 @@ class Console
         next
       end
 
-      error('guess') unless @game.def_guess(guess)
+      error(I18n.t(:guess)) unless @game.def_guess(guess)
     end
   end
 

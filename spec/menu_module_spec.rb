@@ -5,39 +5,42 @@ RSpec.describe MenuModule do
 
   it '#call message' do
     allow(console).to receive(:gets)
-    expect { console.message }.to output(/Press entert to continue!/).to_stdout
+    expect { console.message }.to output(I18n.t(:continue)).to_stdout
   end
 
   it '#call error' do
     name = 'test'
     allow(console).to receive(:gets)
-    expect { console.error(name) }.to output(/Error please enter valid test/).to_stdout
+    expect(console).to receive(:message)
+    expect { console.error(name) }.to output(I18n.t(:error, name: name)).to_stdout
   end
 
   it '#call menu_lose' do
     code = '1234'
     allow(console).to receive(:gets)
-    expect { console.menu_lose(code) }.to output("Secret code: 1234\nYou lose(((\nPress entert to continue!\n").to_stdout
+    expect(console).to receive(:message)
+    expect { console.menu_lose(code) }.to output(I18n.t(:menu_lose, code: code)).to_stdout
   end
 
   it '#call show_result' do
     result = '+--'
     allow(console).to receive(:gets)
-    expect { console.show_result(result) }.to output("Result:+--\nPress entert to continue!\n").to_stdout
+    expect(console).to receive(:message)
+    expect { console.show_result(result) }.to output(I18n.t(:show_result, result: result)).to_stdout
   end
 
   it '#call menu_win' do
     code = '1234'
-    expect { console.menu_win(code) }.to output("Secret code: 1234\nYou win)))!!!\nDo you want to save the result? [y/n]\n").to_stdout
+    expect { console.menu_win(code) }.to output(I18n.t(:menu_win, code: code)).to_stdout
   end
 
   it '#call menu_process' do
     attempts = 10
     hints = 2
-    expect { console.menu_process(attempts, hints) }.to output("Game process:\n******************************\nattempts - 10\n******************************\nyour choise\n******************************\nhint - 2\nexit\n******************************\nEntery you guess!\n").to_stdout
+    expect { console.menu_process(attempts, hints) }.to output(I18n.t(:menu_process, attempts: attempts, hints: hints)).to_stdout
   end
 
   it '#call menu_choose_difficulty' do
-    expect { console.menu_choose_difficulty }.to output("choise difficulties\n******************************\neasy - 15 attempts. 2 hints\nmedium - 10 attempts. 1 hint\nhell - 5 attempts. 1 hint\nexit\n******************************\nPlease choose difficul\n").to_stdout
+    expect { console.menu_choose_difficulty }.to output(I18n.t(:menu_choose_difficult)).to_stdout
   end
 end
