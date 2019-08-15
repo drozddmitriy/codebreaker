@@ -1,3 +1,5 @@
-# Ignore yml files
-tmp/
-coverage/
+# Ignore data.yml files
+data.yml
+# Ignore test-related files
+/coverage.data
+/coverage/*

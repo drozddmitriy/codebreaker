@@ -1,6 +1,21 @@
 class Console
   include MenuModule
   include DatabaseModule
+  include StatisticModule
+  DIFFICULTIES = {
+    easy: {
+      attempts: 15,
+      hints: 2
+    },
+    medium: {
+      attempts: 10,
+      hints: 1
+    },
+    hell: {
+      attempts: 5,
+      hints: 1
+    }
+  }.freeze
 
   def run
     loop do
@@ -20,43 +35,44 @@ class Console
         break
       else
         puts I18n.t(:please_choose_command)
-        message
+        show_message_continue
       end
     end
   end
 
   def registration
     loop do
-      break if @game.name
+      break if @game.player
 
       system 'clear'
       puts I18n.t(:entery_name)
       name = gets.chomp
       return false if name == I18n.t(:exit)
 
-      error(I18n.t(:name)) unless @game.def_name(name)
+      error(I18n.t(:name)) unless @game.name_player(name)
     end
   end
 
   def check_difficulty
     loop do
-      menu_choose_difficulty
+      menu_choose_difficulty(DIFFICULTIES)
 
       case gets.chomp
-      when I18n.t(:easy)
-        @game.set_difficul(I18n.t(:easy), 15, 2)
+      when I18n.t(:easy, scope: [:difficulty])
+        @game.difficulty_player(I18n.t(:easy, scope: [:difficulty]), DIFFICULTIES[:easy][:attempts],
+                                DIFFICULTIES[:easy][:hints])
         break
-      when I18n.t(:medium)
-        @game.set_difficul(I18n.t(:medium), 10)
+      when I18n.t(:medium, scope: [:difficulty])
+        @game.difficulty_player(I18n.t(:medium, scope: [:difficulty]), DIFFICULTIES[:medium][:attempts])
         break
-      when I18n.t(:hell)
-        @game.set_difficul(I18n.t(:hell), 5)
+      when I18n.t(:hell, scope: [:difficulty])
+        @game.difficulty_player(I18n.t(:hell, scope: [:difficulty]), DIFFICULTIES[:hell][:attempts])
         break
       when I18n.t(:exit)
         return false
       else
         puts I18n.t(:please_choose_difficul)
-        message
+        show_message_continue
       end
     end
   end
@@ -76,11 +92,11 @@ class Console
         else
           puts @game.hint
         end
-        message
+        show_message_continue
         next
       end
 
-      error(I18n.t(:guess)) unless @game.def_guess(guess)
+      error(I18n.t(:guess)) unless @game.guess_player(guess)
     end
   end
 
@@ -91,18 +107,16 @@ class Console
       return if input(@game.diff_try) == false
 
       @game.add_try
-      result = @game.check
-
-      if result == true
+      if @game.win?
         menu_win(@game.code)
         save(@game.to_hash) if gets.chomp == 'y'
-        message
+        show_message_continue
         return
       end
 
       return menu_lose(@game.code) if @game.diff_try.zero?
 
-      show_result(result)
+      show_result(@game.check)
       @game.reset_input_code
     end
   end

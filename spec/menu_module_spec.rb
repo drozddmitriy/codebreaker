@@ -1,46 +1,76 @@
 require_relative 'spec_helper'
 
 RSpec.describe MenuModule do
+  DIFFICULTIES = {
+    easy: {
+      attempts: 15,
+      hints: 2
+    },
+    medium: {
+      attempts: 10,
+      hints: 1
+    },
+    hell: {
+      attempts: 5,
+      hints: 1
+    }
+  }.freeze
   let(:console) { Console.new }
 
-  it '#call message' do
-    allow(console).to receive(:gets)
-    expect { console.message }.to output(I18n.t(:continue)).to_stdout
+  describe '.show_message_continue' do
+    it do
+      allow(console).to receive(:gets)
+      expect { console.show_message_continue }.to output(I18n.t(:continue)).to_stdout
+    end
   end
 
-  it '#call error' do
-    name = 'test'
-    allow(console).to receive(:gets)
-    expect(console).to receive(:message)
-    expect { console.error(name) }.to output(I18n.t(:error, name: name)).to_stdout
+  describe '.error' do
+    let(:name) { 'test' }
+
+    it 'puts error name' do
+      allow(console).to receive(:gets)
+      expect(console).to receive(:show_message_continue)
+      expect { console.error(name) }.to output(I18n.t(:error, name: name)).to_stdout
+    end
   end
 
-  it '#call menu_lose' do
-    code = '1234'
-    allow(console).to receive(:gets)
-    expect(console).to receive(:message)
-    expect { console.menu_lose(code) }.to output(I18n.t(:menu_lose, code: code)).to_stdout
+  describe '.show_result' do
+    let(:result) { '+--' }
+
+    it do
+      allow(console).to receive(:gets)
+      expect(console).to receive(:show_message_continue)
+      expect { console.show_result(result) }.to output(I18n.t(:show_result, result: result)).to_stdout
+    end
   end
 
-  it '#call show_result' do
-    result = '+--'
-    allow(console).to receive(:gets)
-    expect(console).to receive(:message)
-    expect { console.show_result(result) }.to output(I18n.t(:show_result, result: result)).to_stdout
-  end
+  describe '.menu_' do
+    let(:code) { '1234' }
+    let(:attempts) { 10 }
+    let(:hints) { 2 }
 
-  it '#call menu_win' do
-    code = '1234'
-    expect { console.menu_win(code) }.to output(I18n.t(:menu_win, code: code)).to_stdout
-  end
+    it 'lose' do
+      allow(console).to receive(:gets)
+      expect(console).to receive(:show_message_continue)
+      expect { console.menu_lose(code) }.to output(I18n.t(:menu_lose, code: code)).to_stdout
+    end
 
-  it '#call menu_process' do
-    attempts = 10
-    hints = 2
-    expect { console.menu_process(attempts, hints) }.to output(I18n.t(:menu_process, attempts: attempts, hints: hints)).to_stdout
-  end
+    it 'win' do
+      expect { console.menu_win(code) }.to output(I18n.t(:menu_win, code: code)).to_stdout
+    end
 
-  it '#call menu_choose_difficulty' do
-    expect { console.menu_choose_difficulty }.to output(I18n.t(:menu_choose_difficult)).to_stdout
+    it 'process' do
+      expect { console.menu_process(attempts, hints) }.to output(I18n.t(:menu_process, attempts: attempts, hints: hints)).to_stdout
+    end
+
+    it 'choose_difficulty' do
+      expect { console.menu_choose_difficulty(DIFFICULTIES) }.to output(I18n.t(:menu_choose_difficult,
+                                                                               easy_attempts: DIFFICULTIES[:easy][:attempts],
+                                                                               easy_hints: DIFFICULTIES[:easy][:hints],
+                                                                               medium_attempts: DIFFICULTIES[:medium][:attempts],
+                                                                               medium_hints: DIFFICULTIES[:medium][:hints],
+                                                                               hell_attempts: DIFFICULTIES[:hell][:attempts],
+                                                                               hell_hints: DIFFICULTIES[:hell][:hints])).to_stdout
+    end
   end
 end

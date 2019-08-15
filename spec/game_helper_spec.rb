@@ -1,9 +1,9 @@
 require_relative 'spec_helper'
 
-RSpec.describe LogicModule do
-  let(:game) { Game.new }
+RSpec.describe GameHelper do
+  subject(:game) { Game.new }
 
-  describe '#rand code' do
+  describe 'rand code' do
     it 'check code for 4 numbers' do
       game.set_code
       expect(game.code.length).to be(4)
@@ -15,7 +15,7 @@ RSpec.describe LogicModule do
     end
   end
 
-  describe '#check_code' do
+  describe 'check_code' do
     it 'marks code according to algorithm' do
       game.instance_variable_set :@code, '1234'
       game.instance_variable_set :@input_code, '1235'
@@ -28,12 +28,30 @@ RSpec.describe LogicModule do
       game.instance_variable_set :@code, '1234'
       game.instance_variable_set :@input_code, '1243'
       expect(game.check_code(game.input_code, game.code)).to eq '++--'
+
+      game.instance_variable_set :@code, '1234'
+      game.instance_variable_set :@input_code, '1234'
+      expect(game.check_code(game.input_code, game.code)).to eq '++++'
+
+      game.instance_variable_set :@code, '1234'
+      game.instance_variable_set :@input_code, '4321'
+      expect(game.check_code(game.input_code, game.code)).to eq '----'
     end
   end
 
-  it 'check_hint' do
-    code = '2345'
-    expect(game).to receive(:rand).and_return(2)
-    expect(game.check_hint(code)).to eq '**4*'
+  describe 'check_hint' do
+    let(:code) { '2345' }
+
+    it 'when show first hint' do
+      hint_index = [2]
+      expect(game.check_hint(code, hint_index)).to eq '**4*'
+    end
+
+    it 'when show next hint' do
+      game.hint_index = [2, 1, 3]
+      game.code = code
+      game.hint
+      expect(game.check_hint(code, game.hint_index)).to eq '2***'
+    end
   end
 end

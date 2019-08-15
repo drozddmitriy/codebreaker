@@ -1,7 +1,8 @@
 en:
-  easy: 'easy'
-  medium: 'medium'
-  hell: 'hell'
+  difficulty:
+    easy: 'easy'
+    medium: 'medium'
+    hell: 'hell'
   guess: 'guess'
   hint: 'hint'
   name: 'name'
@@ -23,6 +24,7 @@ en:
   Do you want to save the result? [y/n]\n"
   error: "Error please enter valid %{name}\n"
   continue: "Press entert to continue!\n"
+  file_not_found: 'File not found!'
   main_menu: "Welcome to game Codebraker!\n
   *************\n
   start\n
@@ -33,9 +35,9 @@ en:
   Please choose one from listed commands\n"
   menu_choose_difficult: "choise difficulties\n
   ******************************\n
-  easy - 15 attempts. 2 hints\n
-  medium - 10 attempts. 1 hint\n
-  hell - 5 attempts. 1 hint\n
+  easy - %{easy_attempts} attempts. %{easy_hints} hints\n
+  medium - %{medium_attempts} attempts. %{medium_hints} hint\n
+  hell - %{hell_attempts} attempts. %{hell_hints} hint\n
   exit\n
   ******************************\n
   Please choose difficul\n"

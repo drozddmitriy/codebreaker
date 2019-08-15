@@ -1,34 +1,35 @@
 class Game
   include ValidationModule
-  include LogicModule
-  attr_accessor :name, :difficulty, :hints_total, :hints_used, :try, :attempts, :code, :input_code
+  include GameHelper
+  attr_accessor :player, :difficulty, :hints_total, :hints_used, :try, :attempts, :code, :input_code, :hint_index
 
   def initialize
-    @name = false
     @attempts = false
+    @hint_index = []
     @try = 0
     @hints_used = 0
     @input_code = false
   end
 
-  def def_name(name)
-    return @name = name if validation_name(name)
+  def name_player(name)
+    return @player = name if validation_name(name)
 
     false
   end
 
   def hint
     @hints_used += 1
-    check_hint(@code)
+    @hint_index = select_unique_hint_index(@hint_index)
+    check_hint(@code, @hint_index)
   end
 
-  def def_guess(guess)
+  def guess_player(guess)
     return @input_code = guess if validation_guess(guess)
 
     false
   end
 
-  def set_difficul(difficulty, attempts, hints_total = 1)
+  def difficulty_player(difficulty, attempts, hints_total = 1)
     @difficulty = difficulty
     @attempts = attempts
     @hints_total = hints_total
@@ -50,14 +51,16 @@ class Game
     @try += 1
   end
 
-  def check
-    return true if @input_code == @code
+  def win?
+    @input_code == @code
+  end
 
+  def check
     check_code(@input_code, @code)
   end
 
   def to_hash
-    array = [@name, @attempts, @hints_total, @hints_used, @difficulty, @try]
+    array = [@player, @attempts, @hints_total, @hints_used, @difficulty, @try]
     keys = %w[name attempts hints_total hints_used difficulty try]
     hash = {}
     keys.zip(array) { |key, val| hash[key.to_sym] = val }

@@ -1,108 +1,127 @@
 require_relative 'spec_helper'
 
 RSpec.describe Game do
-  let(:game) { Game.new }
+  subject(:game) { described_class.new }
 
-  it '#check set_difficul' do
-    difficulty = 'hell'
-    attempts = 5
-    game.set_difficul(difficulty, attempts)
-    expect(game.instance_variable_get(:@difficulty)).to eq 'hell'
-    expect(game.instance_variable_get(:@attempts)).to eq 5
-  end
+  describe '.difficulty_player' do
+    let(:difficulty) { 'hell' }
+    let(:attempts) { 5 }
 
-  describe '#chek def_name' do
-    it 'if true' do
-      game.def_name('test')
-      expect(game.instance_variable_get(:@name)).to eq 'test'
+    before do
+      game.difficulty_player(difficulty, attempts)
     end
 
-    it 'if empty' do
-      game.def_name('')
-      expect(game.instance_variable_get(:@name)).to eq false
-    end
-
-    it 'if between (3, 20)' do
-      game.def_name('te')
-      expect(game.instance_variable_get(:@name)).to eq false
-    end
-
-    it 'if String' do
-      game.def_name(125)
-      expect(game.instance_variable_get(:@name)).to eq false
+    it do
+      expect(game.instance_variable_get(:@difficulty)).to eq 'hell'
+      expect(game.instance_variable_get(:@attempts)).to eq 5
     end
   end
 
-  describe '#chek def_guess' do
-    it 'if true' do
-      game.def_guess('1234')
+  describe '.name_player' do
+    it 'when valid name' do
+      game.name_player('test')
+      expect(game.instance_variable_get(:@player)).to eq 'test'
+    end
+
+    it 'when empty name' do
+      game.name_player('')
+      expect(game.instance_variable_get(:@player)).to eq nil
+    end
+
+    it 'when name between (3, 20)' do
+      game.name_player('te')
+      expect(game.instance_variable_get(:@player)).to eq nil
+    end
+
+    it 'when name not String' do
+      game.name_player(125)
+      expect(game.instance_variable_get(:@player)).to eq nil
+    end
+  end
+
+  describe '.guess_player' do
+    it 'when valid guess' do
+      game.guess_player('1234')
       expect(game.instance_variable_get(:@input_code)).to eq '1234'
     end
 
-    it 'if false' do
-      game.def_guess('12345')
+    it 'when invalid guess' do
+      game.guess_player('12345')
       expect(game.instance_variable_get(:@input_code)).to eq false
     end
   end
 
-  it '#check diff_hints' do
-    game.hints_total = 5
-    game.hints_used = 2
-    expect(game.diff_hints).to eq 3
+  describe '.diff_hints' do
+    before do
+      game.hints_total = 5
+      game.hints_used = 2
+    end
+
+    it { expect(game.diff_hints).to eq 3 }
   end
 
-  it '#check diff_try' do
-    game.attempts = 5
-    game.try = 2
-    expect(game.diff_try).to eq 3
+  describe '.diff_try' do
+    before do
+      game.attempts = 5
+      game.try = 2
+    end
+
+    it { expect(game.diff_try).to eq 3 }
   end
 
-  it '#check add_try' do
-    game.try = 0
-    expect(game.add_try).to eq 1
+  describe '.add_try' do
+    before do
+      game.try = 0
+    end
+    it { expect(game.add_try).to eq 1 }
   end
 
-  it '#check reset_input_code' do
-    game.input_code = '1234'
-    expect(game.reset_input_code).to eq false
+  describe '.reset_input_code' do
+    before do
+      game.input_code = '1234'
+    end
+
+    it { expect(game.reset_input_code).to eq false }
   end
 
-  it '#check to_hash' do
-    game.name = 'test'
-    game.attempts = 5
-    game.hints_total = 1
-    game.hints_used = 0
-    game.difficulty = 'hell'
-    game.try = 1
-    hash = { name: 'test', attempts: 5, hints_total: 1, hints_used: 0, difficulty: 'hell', try: 1 }
-    expect(game.to_hash).to eq hash
+  describe '.to_hash' do
+    let(:hash) { { name: 'test', attempts: 5, hints_total: 1, hints_used: 0, difficulty: 'hell', try: 1 } }
+    before do
+      game.player = 'test'
+      game.attempts = 5
+      game.hints_total = 1
+      game.hints_used = 0
+      game.difficulty = 'hell'
+      game.try = 1
+    end
+
+    it { expect(game.to_hash).to eq hash }
   end
 
-  describe '#check method check' do
-    it 'if true' do
+  describe '.check' do
+    before do
       game.input_code = '1234'
       game.code = '1234'
       game.attempts = 5
-      expect(game.check).to eq true
     end
 
-    it 'if result' do
-      game.input_code = '1234'
-      game.code = '1233'
-      game.attempts = 5
-      expect(game.check).to eq '+++'
+    it { expect(game.check).to eq '++++' }
+  end
+
+  describe '.set_code' do
+    it do
+      allow(game).to receive(:rand_code).and_return('1234')
+      expect(game.set_code).to eq '1234'
     end
   end
 
-  it '#check set_code' do
-    allow(game).to receive(:rand_code).and_return('1234')
-    expect(game.set_code).to eq '1234'
-  end
-
-  describe '#check hint' do
-    it 'if return hint' do
+  describe '.hint' do
+    before do
       game.hints_total = 1
       game.hints_used = 0
+    end
+
+    it do
       allow(game).to receive(:check_hint).and_return('*2**')
       expect(game.hint).to eq '*2**'
     end
