@@ -1,7 +1,7 @@
 require_relative 'spec_helper'
 
-RSpec.describe GameHelper do
-  subject(:game) { Game.new }
+RSpec.describe Codebreaker::GameHelper do
+  subject(:game) { Codebreaker::Game.new }
 
   describe 'rand code' do
     it 'check code for 4 numbers' do

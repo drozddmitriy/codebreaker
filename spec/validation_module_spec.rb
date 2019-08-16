@@ -1,7 +1,7 @@
 require_relative 'spec_helper'
 
-RSpec.describe ValidationModule do
-  let(:game) { Game.new }
+RSpec.describe Codebreaker::ValidationModule do
+  let(:game) { Codebreaker::Game.new }
 
   it '#check guess when true' do
     guess = '1234'

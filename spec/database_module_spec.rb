@@ -1,7 +1,7 @@
 require_relative 'spec_helper'
 
-RSpec.describe DatabaseModule do
-  subject(:console) { Console.new }
+RSpec.describe Codebreaker::DatabaseModule do
+  subject(:console) { Codebreaker::Console.new }
 
   let(:path) { 'data_test.yml' }
   let(:test_data) { { name: 'test3', attempts: 5, hints_total: 1, hints_used: 1, difficulty: 'hell', try: 3 } }

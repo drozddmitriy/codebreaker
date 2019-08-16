@@ -1,12 +1,12 @@
 Gem::Specification.new do |spec|
   spec.name = 'codebreaker'
-  spec.version = '1.1.2'
+  spec.version = '1.2.2'
   spec.summary = 'codebreaker application'
   spec.description = 'Make something that can run in production'
   spec.author = ['drozd_dmytro']
   spec.email = ['drozd.dmitriy.etc@gmail.com']
   spec.homepage = 'https://github.com/drozddmitriy/codebreaker'
-  spec.files = Dir['lib/entities/*.rb', 'lib/*.rb', 'lib/modules/*.rb', 'lib/locales/*.rb']
+  spec.files = Dir['lib/entities/*.rb', 'lib/*.rb', 'lib/modules/*.rb', 'lib/locales/*.rb', 'dependency.rb']
   spec.license = 'MIT'
 
   spec.bindir        = 'exe'

@@ -1,53 +1,75 @@
 require_relative 'spec_helper'
 
-RSpec.describe Game do
+RSpec.describe Codebreaker::Game do
   subject(:game) { described_class.new }
 
   describe '.difficulty_player' do
     let(:difficulty) { 'hell' }
     let(:attempts) { 5 }
 
-    before do
-      game.difficulty_player(difficulty, attempts)
-    end
+    before { game.difficulty_player(difficulty, attempts) }
 
     it do
-      expect(game.instance_variable_get(:@difficulty)).to eq 'hell'
+      expect(game.instance_variable_get(:@difficulty)).to eq difficulty
       expect(game.instance_variable_get(:@attempts)).to eq 5
     end
   end
 
   describe '.name_player' do
-    it 'when valid name' do
-      game.name_player('test')
-      expect(game.instance_variable_get(:@player)).to eq 'test'
+    context 'when valid name' do
+      let(:name) { 'test' }
+
+      it do
+        game.name_player(name)
+        expect(game.instance_variable_get(:@player)).to eq name
+      end
     end
 
-    it 'when empty name' do
-      game.name_player('')
-      expect(game.instance_variable_get(:@player)).to eq nil
+    context 'when empty name' do
+      let(:name) { '' }
+
+      it do
+        game.name_player('')
+        expect(game.instance_variable_get(:@player)).to be_nil
+      end
     end
 
-    it 'when name between (3, 20)' do
-      game.name_player('te')
-      expect(game.instance_variable_get(:@player)).to eq nil
+    context 'when name between (3, 20)' do
+      let(:name) { 'te' }
+
+      it do
+        game.name_player('te')
+        expect(game.instance_variable_get(:@player)).to be_nil
+      end
     end
 
-    it 'when name not String' do
-      game.name_player(125)
-      expect(game.instance_variable_get(:@player)).to eq nil
+    context 'when name not String' do
+      let(:name) { 125 }
+
+      it do
+        game.name_player(125)
+        expect(game.instance_variable_get(:@player)).to be_nil
+      end
     end
   end
 
   describe '.guess_player' do
-    it 'when valid guess' do
-      game.guess_player('1234')
-      expect(game.instance_variable_get(:@input_code)).to eq '1234'
+    context 'when valid guess' do
+      let(:guess) { '1234' }
+
+      it do
+        game.guess_player(guess)
+        expect(game.instance_variable_get(:@input_code)).to eq guess
+      end
     end
 
-    it 'when invalid guess' do
-      game.guess_player('12345')
-      expect(game.instance_variable_get(:@input_code)).to eq false
+    context 'when invalid guess' do
+      let(:guess) { '12345' }
+
+      it do
+        game.guess_player(guess)
+        expect(game.instance_variable_get(:@input_code)).to eq false
+      end
     end
   end
 
@@ -109,21 +131,25 @@ RSpec.describe Game do
   end
 
   describe '.set_code' do
+    let(:code) { '1234' }
+
     it do
-      allow(game).to receive(:rand_code).and_return('1234')
-      expect(game.set_code).to eq '1234'
+      allow(game).to receive(:rand_code).and_return(code)
+      expect(game.set_code).to eq code
     end
   end
 
   describe '.hint' do
+    let(:hint) { '*2**' }
+
     before do
       game.hints_total = 1
       game.hints_used = 0
     end
 
     it do
-      allow(game).to receive(:check_hint).and_return('*2**')
-      expect(game.hint).to eq '*2**'
+      allow(game).to receive(:check_hint).and_return(hint)
+      expect(game.hint).to eq hint
     end
   end
 end
