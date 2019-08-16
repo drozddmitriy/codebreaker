@@ -174,19 +174,23 @@ RSpec.describe Codebreaker::Console do
       expect(console).to receive(:input).and_return(5)
     end
 
-    it 'when win' do
-      game.instance_variable_set(:@try, 2)
-      expect(game).to receive(:win?).and_return(true)
-      console.game_process
-      expect { console.menu_win(game.code) }.to output(I18n.t(:menu_win, code: game.code)).to_stdout
+    context 'when win' do
+      it do
+        game.instance_variable_set(:@try, 2)
+        expect(game).to receive(:win?).and_return(true)
+        console.game_process
+        expect { console.menu_win(game.code) }.to output(I18n.t(:menu_win, code: game.code)).to_stdout
+      end
     end
 
-    it 'when lose' do
-      game.instance_variable_set(:@try, 5)
-      expect(game).to receive(:check)
-      console.game_process
-      expect(console).to receive(:show_message_continue)
-      expect { console.menu_lose(game.code) }.to output(I18n.t(:menu_lose, code: game.code)).to_stdout
+    context 'when lose' do
+      it do
+        game.instance_variable_set(:@try, 5)
+        expect(game).to receive(:check)
+        console.game_process
+        expect(console).to receive(:show_message_continue)
+        expect { console.menu_lose(game.code) }.to output(I18n.t(:menu_lose, code: game.code)).to_stdout
+      end
     end
   end
 end

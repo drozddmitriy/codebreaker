@@ -19,16 +19,20 @@ RSpec.describe Codebreaker::DatabaseModule do
       File.delete(path)
     end
 
-    it 'when save data' do
-      old_size = File.new(path).size
-      console.save(test_data, path)
-      new_size = File.new(path).size
-      expect(new_size).to be > old_size
+    context 'when save data' do
+      it do
+        old_size = File.new(path).size
+        console.save(test_data, path)
+        new_size = File.new(path).size
+        expect(new_size).to be > old_size
+      end
     end
 
-    it 'when load data' do
-      console.save(test_data, path)
-      expect(console.load(path)[0]).to eq test_data
+    context 'when load data' do
+      it do
+        console.save(test_data, path)
+        expect(console.load(path)[0]).to eq test_data
+      end
     end
   end
 end

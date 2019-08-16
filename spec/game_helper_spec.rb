@@ -42,16 +42,20 @@ RSpec.describe Codebreaker::GameHelper do
   describe 'check_hint' do
     let(:code) { '2345' }
 
-    it 'when show first hint' do
-      hint_index = [2]
-      expect(game.check_hint(code, hint_index)).to eq '**4*'
+    context 'when show first hint' do
+      it do
+        hint_index = [2]
+        expect(game.check_hint(code, hint_index)).to eq '**4*'
+      end
     end
 
-    it 'when show next hint' do
-      game.hint_index = [2, 1, 3]
-      game.code = code
-      game.hint
-      expect(game.check_hint(code, game.hint_index)).to eq '2***'
+    context 'when show next hint' do
+      it do
+        game.hint_index = [2, 1, 3]
+        game.code = code
+        game.hint
+        expect(game.check_hint(code, game.hint_index)).to eq '2***'
+      end
     end
   end
 end
