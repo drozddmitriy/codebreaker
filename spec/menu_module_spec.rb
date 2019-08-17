@@ -1,20 +1,6 @@
 require_relative 'spec_helper'
 
 RSpec.describe Codebreaker::MenuModule do
-  DIFFICULTIES = {
-    easy: {
-      attempts: 15,
-      hints: 2
-    },
-    medium: {
-      attempts: 10,
-      hints: 1
-    },
-    hell: {
-      attempts: 5,
-      hints: 1
-    }
-  }.freeze
   let(:console) { Codebreaker::Console.new }
 
   describe '.show_message_continue' do
@@ -50,12 +36,12 @@ RSpec.describe Codebreaker::MenuModule do
     let(:hints) { 2 }
     let(:menu_choose) do
       I18n.t(:menu_choose_difficult,
-             easy_attempts: DIFFICULTIES[:easy][:attempts],
-             easy_hints: DIFFICULTIES[:easy][:hints],
-             medium_attempts: DIFFICULTIES[:medium][:attempts],
-             medium_hints: DIFFICULTIES[:medium][:hints],
-             hell_attempts: DIFFICULTIES[:hell][:attempts],
-             hell_hints: DIFFICULTIES[:hell][:hints])
+             easy_attempts: Codebreaker::Console::DIFFICULTIES[:easy][:attempts],
+             easy_hints: Codebreaker::Console::DIFFICULTIES[:easy][:hints],
+             medium_attempts: Codebreaker::Console::DIFFICULTIES[:medium][:attempts],
+             medium_hints: Codebreaker::Console::DIFFICULTIES[:medium][:hints],
+             hell_attempts: Codebreaker::Console::DIFFICULTIES[:hell][:attempts],
+             hell_hints: Codebreaker::Console::DIFFICULTIES[:hell][:hints])
     end
 
     it 'show lose' do
@@ -75,7 +61,7 @@ RSpec.describe Codebreaker::MenuModule do
     end
 
     it 'show choose_difficulty' do
-      expect { console.menu_choose_difficulty(DIFFICULTIES) }.to output(menu_choose).to_stdout
+      expect { console.menu_choose_difficulty(Codebreaker::Console::DIFFICULTIES) }.to output(menu_choose).to_stdout
     end
   end
 end
