@@ -20,9 +20,27 @@ RSpec.describe Codebreaker::Console do
       console.run
     end
 
-    it 'and returns stats' do
-      allow(console).to receive(:gets) { I18n.t(:stats) }
-      console.run
+    context 'and returns stats' do
+      let(:path) { Codebreaker::DatabaseModule::FILE_NAME }
+      let(:test_data) do
+        { name: 'test3',
+          attempts: 5,
+          hints_total: 1,
+          hints_used: 1,
+          difficulty: 'hell',
+          try: 3 }
+      end
+      before do
+        File.new(path, 'w+')
+        console.save(test_data, path)
+      end
+
+      after { File.delete(path) }
+      
+      it do
+        allow(console).to receive(:gets) { I18n.t(:stats) }
+        console.run
+      end
     end
 
     it 'and start game' do
