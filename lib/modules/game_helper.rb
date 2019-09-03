@@ -1,31 +1,34 @@
 module Codebreaker
   module GameHelper
+    PLUS = '+'.freeze
+    MINUS = '-'.freeze
+
     def check_code(input_code, code)
-      result = ''
-      code_clone = code.clone
-      input_code_clone = input_code.clone
+      code_clone = code.split('')
+      input_code_clone = input_code.split('')
+      matched_position_digits(code_clone, input_code_clone).join + matched_digits(code_clone, input_code_clone).join
+    end
 
-      input_code.chars.each_with_index do |char, index|
-        if char == code[index]
-          result << '+'
-          code_clone[index] = input_code_clone[index] = '*'
-        end
+    def matched_position_digits(code_clone, input_code_clone)
+      code_clone.map.with_index do |_, index|
+        next unless code_clone[index] == input_code_clone[index]
+
+        input_code_clone[index], code_clone[index] = nil
+        PLUS
       end
+    end
 
-      chek_code_helper(result, input_code_clone, code_clone)
+    def matched_digits(code_clone, input_code_clone)
+      input_code_clone.compact.map do |number|
+        next unless code_clone.include?(number)
+
+        code_clone.delete_at(code_clone.index(number))
+        MINUS
+      end
     end
 
     def check_hint(code, hint_index)
-      hints = ''
-
-      code.chars.each_with_index do |char, index|
-        hints << if index == hint_index.last
-                   char
-                 else
-                   '*'
-                 end
-      end
-      hints
+      code.chars.each_with_index.map { |char, index| index == hint_index.last ? char : '*' }.join
     end
 
     def select_unique_hint_index(index)
@@ -39,26 +42,8 @@ module Codebreaker
       end
     end
 
-    def chek_code_helper(result, input_code, code_clone)
-      input_code.chars.each_with_index do |char, index|
-        next unless char != '*'
-
-        index_of_char = code_clone.index(char)
-
-        if index_of_char
-          result << '-'
-          code_clone[index_of_char] = input_code[index] = '*'
-        end
-      end
-      result
-    end
-
     def rand_code
-      code = ''
-      4.times do
-        code << rand(1...6).to_s
-      end
-      code
+      (1..4).map { rand(1...6) }.join
     end
   end
 end

@@ -31,9 +31,9 @@ module Codebreaker
       rating = 1
 
       array.each do |e|
-        part2 = "|#{e[:try]}\t\t|#{e[:hints_total]}\t\t|#{e[:hints_used]}\t\t|"
-        part1 = "|#{rating}\t|#{e[:name]}\t|#{e[:difficulty]}\t\t|#{e[:attempts]}\t\t"
-        puts part1 + part2
+        header_part2 = "|#{e[:try]}\t\t|#{e[:hints_total]}\t\t|#{e[:hints_used]}\t\t|"
+        header_part1 = "|#{rating}\t|#{e[:name]}\t|#{e[:difficulty]}\t\t|#{e[:attempts]}\t\t"
+        puts header_part1 + header_part2
         rating += 1
       end
       show_message_continue

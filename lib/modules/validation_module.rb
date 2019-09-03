@@ -1,7 +1,7 @@
 module Codebreaker
   module ValidationModule
     def validation_name(name)
-      (name.is_a? String) && !name.empty? && name.length.between?(3, 20)
+      (name.is_a? String) && name.length.between?(3, 20)
     end
 
     def validation_guess(guess)

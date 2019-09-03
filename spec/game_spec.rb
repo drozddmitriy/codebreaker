@@ -29,8 +29,8 @@ RSpec.describe Codebreaker::Game do
       let(:name) { '' }
 
       it do
-        game.name_player('')
-        expect(game.instance_variable_get(:@player)).to be_nil
+        game.name_player(name)
+        expect(game.instance_variable_get(:@player)).to eq false
       end
     end
 
@@ -38,8 +38,8 @@ RSpec.describe Codebreaker::Game do
       let(:name) { 'te' }
 
       it do
-        game.name_player('te')
-        expect(game.instance_variable_get(:@player)).to be_nil
+        game.name_player(name)
+        expect(game.instance_variable_get(:@player)).to eq false
       end
     end
 
@@ -47,8 +47,8 @@ RSpec.describe Codebreaker::Game do
       let(:name) { 125 }
 
       it do
-        game.name_player(125)
-        expect(game.instance_variable_get(:@player)).to be_nil
+        game.name_player(name)
+        expect(game.instance_variable_get(:@player)).to eq false
       end
     end
   end
@@ -91,17 +91,14 @@ RSpec.describe Codebreaker::Game do
     it { expect(game.diff_try).to eq 3 }
   end
 
-  describe '.add_try' do
-    before do
-      game.try = 0
-    end
-    it { expect(game.add_try).to eq 1 }
-  end
+  # describe '.add_try' do
+  #   before { game.try = 0 }
+  #
+  #   it { expect(game.add_try).to eq 1 }
+  # end
 
   describe '.reset_input_code' do
-    before do
-      game.input_code = '1234'
-    end
+    before { game.input_code = '1234' }
 
     it { expect(game.reset_input_code).to eq false }
   end

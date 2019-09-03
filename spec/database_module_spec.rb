@@ -11,13 +11,9 @@ RSpec.describe Codebreaker::DatabaseModule do
   end
 
   describe 'check save and load' do
-    before do
-      File.new(path, 'w+')
-    end
+    before { File.new(path, 'w+') }
 
-    after do
-      File.delete(path)
-    end
+    after { File.delete(path) }
 
     context 'when save data' do
       it do

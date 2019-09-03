@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name = 'codebreaker'
-  spec.version = '1.2.2'
+  spec.version = '1.2.3'
   spec.summary = 'codebreaker application'
   spec.description = 'Make something that can run in production'
   spec.author = ['drozd_dmytro']

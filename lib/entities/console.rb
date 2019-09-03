@@ -4,20 +4,6 @@ module Codebreaker
     include DatabaseModule
     include StatisticModule
     YES = 'y'.freeze
-    DIFFICULTIES = {
-      easy: {
-        attempts: 15,
-        hints: 2
-      },
-      medium: {
-        attempts: 10,
-        hints: 1
-      },
-      hell: {
-        attempts: 5,
-        hints: 1
-      }
-    }.freeze
 
     def run
       loop do
@@ -39,19 +25,19 @@ module Codebreaker
     end
 
     def start
-      return if registration == false
+      return unless registration
 
-      return if check_difficulty == false
+      return unless check_difficulty
 
       game_process
     end
 
     def registration
       loop do
-        break if @game.player
+        return true if @game.player
 
         system 'clear'
-        puts I18n.t(:entery_name)
+        puts I18n.t(:enter_you_name)
         name = gets.chomp
         return false if name == I18n.t(:exit)
 
@@ -61,22 +47,15 @@ module Codebreaker
 
     def check_difficulty
       loop do
-        menu_choose_difficulty(DIFFICULTIES)
+        menu_choose_difficulty(Game::DIFFICULTIES)
 
         case gets.chomp
-        when I18n.t(:easy, scope: [:difficulty])
-          @game.difficulty_player(I18n.t(:easy, scope: [:difficulty]), DIFFICULTIES[:easy][:attempts],
-                                  DIFFICULTIES[:easy][:hints])
-          break
-        when I18n.t(:medium, scope: [:difficulty])
-          @game.difficulty_player(I18n.t(:medium, scope: [:difficulty]), DIFFICULTIES[:medium][:attempts])
-          break
-        when I18n.t(:hell, scope: [:difficulty])
-          @game.difficulty_player(I18n.t(:hell, scope: [:difficulty]), DIFFICULTIES[:hell][:attempts])
-          break
+        when I18n.t(:easy, scope: [:difficulty]) then return @game.difficulty_for_player(:easy)
+        when I18n.t(:medium, scope: [:difficulty]) then return @game.difficulty_for_player(:medium)
+        when I18n.t(:hell, scope: [:difficulty]) then return @game.difficulty_for_player(:hell)
         when I18n.t(:exit) then return false
         else
-          puts I18n.t(:please_choose_difficul)
+          puts I18n.t(:please_choose_difficult)
           show_message_continue
         end
       end
@@ -92,10 +71,11 @@ module Codebreaker
         return false if guess == I18n.t(:exit)
 
         if guess == I18n.t(:hint)
-          if @game.diff_hints.zero?
-            puts I18n.t(:no_hints)
+          hint = @game.hint
+          if hint
+            puts hint
           else
-            puts @game.hint
+            puts I18n.t(:no_hints)
           end
           show_message_continue
           next
@@ -111,7 +91,7 @@ module Codebreaker
       loop do
         return if input == false
 
-        @game.add_try
+        show_result(@game.check)
         if @game.win?
           menu_win(@game.code)
           save(@game.to_hash) if gets.chomp == YES
@@ -121,7 +101,7 @@ module Codebreaker
 
         return menu_lose(@game.code) if @game.diff_try.zero?
 
-        show_result(@game.check)
+        # show_result(@game.check)
         @game.reset_input_code
       end
     end

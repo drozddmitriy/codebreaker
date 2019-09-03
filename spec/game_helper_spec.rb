@@ -50,12 +50,15 @@ RSpec.describe Codebreaker::GameHelper do
     end
 
     context 'when show next hint' do
-      it do
+      before do
+        game.hints_used = 3
+        game.hints_total = 5
         game.hint_index = [2, 1, 3]
         game.code = code
         game.hint
-        expect(game.check_hint(code, game.hint_index)).to eq '2***'
       end
+
+      it { expect(game.check_hint(code, game.hint_index)).to eq '2***' }
     end
   end
 end

@@ -11,9 +11,9 @@ en:
   stats: 'stats'
   exit: 'exit'
   no_hints: "No hints\n"
-  entery_name: "Entery you name!\n"
+  enter_you_name: "Entery you name!\n"
   please_choose_command: "Error please choose one from listed commands\n"
-  please_choose_difficul: "Error please choose difficul\n"
+  please_choose_difficult: "Error please choose difficul\n"
   goodbye: "goodbye)))\n"
   statistic: "|Rating\t|Name\t|Difficulty\t|Attempts Total\t|Attempts Used\t|Hints Total\t|Hints Used\t|"
   show_result: "Result:%{result}\n"

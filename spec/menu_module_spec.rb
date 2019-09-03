@@ -36,12 +36,12 @@ RSpec.describe Codebreaker::MenuModule do
     let(:hints) { 2 }
     let(:menu_choose) do
       I18n.t(:menu_choose_difficult,
-             easy_attempts: Codebreaker::Console::DIFFICULTIES[:easy][:attempts],
-             easy_hints: Codebreaker::Console::DIFFICULTIES[:easy][:hints],
-             medium_attempts: Codebreaker::Console::DIFFICULTIES[:medium][:attempts],
-             medium_hints: Codebreaker::Console::DIFFICULTIES[:medium][:hints],
-             hell_attempts: Codebreaker::Console::DIFFICULTIES[:hell][:attempts],
-             hell_hints: Codebreaker::Console::DIFFICULTIES[:hell][:hints])
+             easy_attempts: Codebreaker::Game::DIFFICULTIES[:easy][:attempts],
+             easy_hints: Codebreaker::Game::DIFFICULTIES[:easy][:hints],
+             medium_attempts: Codebreaker::Game::DIFFICULTIES[:medium][:attempts],
+             medium_hints: Codebreaker::Game::DIFFICULTIES[:medium][:hints],
+             hell_attempts: Codebreaker::Game::DIFFICULTIES[:hell][:attempts],
+             hell_hints: Codebreaker::Game::DIFFICULTIES[:hell][:hints])
     end
 
     it 'show lose' do
@@ -61,7 +61,7 @@ RSpec.describe Codebreaker::MenuModule do
     end
 
     it 'show choose_difficulty' do
-      expect { console.menu_choose_difficulty(Codebreaker::Console::DIFFICULTIES) }.to output(menu_choose).to_stdout
+      expect { console.menu_choose_difficulty(Codebreaker::Game::DIFFICULTIES) }.to output(menu_choose).to_stdout
     end
   end
 end

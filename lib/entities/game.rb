@@ -2,6 +2,21 @@ module Codebreaker
   class Game
     include ValidationModule
     include GameHelper
+    DIFFICULTIES = {
+      easy: {
+        attempts: 15,
+        hints: 2
+      },
+      medium: {
+        attempts: 10,
+        hints: 1
+      },
+      hell: {
+        attempts: 5,
+        hints: 1
+      }
+    }.freeze
+
     attr_accessor :player, :difficulty, :hints_total, :hints_used, :try, :attempts, :code, :input_code, :hint_index
 
     def initialize
@@ -13,27 +28,31 @@ module Codebreaker
     end
 
     def name_player(name)
-      return @player = name if validation_name(name)
-
-      false
+      @player = validation_name(name) ? name : false
     end
 
     def hint
+      return false if diff_hints.zero?
+
       @hints_used += 1
       @hint_index = select_unique_hint_index(@hint_index)
       check_hint(@code, @hint_index)
     end
 
     def guess_player(guess)
-      return @input_code = guess if validation_guess(guess)
-
-      false
+      @input_code = validation_guess(guess) ? guess : false
     end
 
     def difficulty_player(difficulty, attempts, hints_total = 1)
       @difficulty = difficulty
       @attempts = attempts
       @hints_total = hints_total
+    end
+
+    def difficulty_for_player(difficult)
+      difficulty_player(I18n.t(difficult, scope: [:difficulty]),
+                        DIFFICULTIES.dig(difficult, :attempts),
+                        DIFFICULTIES.dig(difficult, :hints))
     end
 
     def diff_hints
@@ -48,15 +67,12 @@ module Codebreaker
       @code = rand_code
     end
 
-    def add_try
-      @try += 1
-    end
-
     def win?
       @input_code == @code
     end
 
     def check
+      @try += 1
       check_code(@input_code, @code)
     end
 
