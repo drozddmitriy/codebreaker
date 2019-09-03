@@ -22,7 +22,7 @@ module Codebreaker
     def initialize
       @attempts = false
       @hint_index = []
-      @try = 0
+      @try = 1
       @hints_used = 0
       @input_code = false
     end

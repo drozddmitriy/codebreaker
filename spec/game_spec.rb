@@ -91,12 +91,6 @@ RSpec.describe Codebreaker::Game do
     it { expect(game.diff_try).to eq 3 }
   end
 
-  # describe '.add_try' do
-  #   before { game.try = 0 }
-  #
-  #   it { expect(game.add_try).to eq 1 }
-  # end
-
   describe '.reset_input_code' do
     before { game.input_code = '1234' }
 

@@ -43,13 +43,13 @@ RSpec.describe Codebreaker::Console do
       end
     end
 
-    # it 'start game' do
-    #   allow(console).to receive(:gets).and_return(I18n.t(:start), I18n.t(:exit))
-    #   expect(console).to receive(:registration)
-    #   expect(console).to receive(:check_difficulty)
-    #   expect(console).to receive(:game_process)
-    #   console.run
-    # end
+    it 'start game' do
+      allow(console).to receive(:gets).and_return(I18n.t(:start), I18n.t(:exit))
+      expect(console).to receive(:registration)
+      expect(console).not_to receive(:check_difficulty)
+      expect(console).not_to receive(:game_process)
+      console.run
+    end
 
     it 'puts invalid value' do
       allow(console).to receive(:gets).and_return('test')

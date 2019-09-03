@@ -48,7 +48,6 @@ module Codebreaker
     def check_difficulty
       loop do
         menu_choose_difficulty(Game::DIFFICULTIES)
-
         case gets.chomp
         when I18n.t(:easy, scope: [:difficulty]) then return @game.difficulty_for_player(:easy)
         when I18n.t(:medium, scope: [:difficulty]) then return @game.difficulty_for_player(:medium)
@@ -101,7 +100,6 @@ module Codebreaker
 
         return menu_lose(@game.code) if @game.diff_try.zero?
 
-        # show_result(@game.check)
         @game.reset_input_code
       end
     end
